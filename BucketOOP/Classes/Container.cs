@@ -51,6 +51,9 @@ namespace BucketOOP.Classes
                 ContainerAmountEventArgs args = new ContainerAmountEventArgs();
                 args.Amount = Content - Capacity;
                 OnOverCapacityAmount(args);
+
+                //Set content back to capacity. TEMP SOLUTION.
+                Content = Capacity;
             }
         }
         public void Empty()
