@@ -27,15 +27,37 @@ namespace BucketOOP.Classes
                 capacity = MinCapacity;
             Capacity = capacity;
         }
+        public Bucket(int capacity, int content)
+        {
+            if (capacity < MinCapacity)
+                capacity = MinCapacity;
+            Capacity = capacity;
+            Fill(content);
+        }
         #endregion
 
         /// <summary>
-        /// Fills bucket with content of other specified bucket.
+        /// Fills bucket with content of other specified bucket. Empties other bucket.
         /// </summary>
-        /// <param name="bucket"></param>
-        public void Fill(Bucket bucket)
+        /// <param name="supplyBucket"></param>
+        public void Fill(Bucket supplyBucket)
         {
-            Fill(bucket.Content);
+            Fill(supplyBucket.Content);
+            supplyBucket.Empty();
+        }
+        /// <summary>
+        /// Fills current bucket with part of the content of other specified bucket.
+        /// </summary>
+        /// <param name="supplyBucket"></param>
+        /// <param name="amount">The amount to exchange.</param>
+        public void Fill(Bucket supplyBucket, int amount)
+        {
+            //Check if the amount being added isn't more than is in the supplyBucket. 
+            //If so the amount exchanged is the entire content of supplyBucket.
+            if (amount > supplyBucket.Content)
+                amount = supplyBucket.Content;
+            Fill(amount);
+            supplyBucket.Empty(amount);
         }
     }
 }

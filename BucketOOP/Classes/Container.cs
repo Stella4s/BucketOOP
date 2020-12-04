@@ -49,9 +49,9 @@ namespace BucketOOP.Classes
             {
                 CapacityDeviationEventArgs args = new CapacityDeviationEventArgs();
                 args.Amount = Content - Capacity;
-                OnOverCapacityAmount(args);
+                OnOverCapacity(args);
 
-                //Set Content to Capacity, as all excess would be "spiled".
+                //Set Content to Capacity, as all excess would be "spilled".
                 Content = Capacity;
             }
         }
@@ -69,7 +69,7 @@ namespace BucketOOP.Classes
         #endregion
 
         #region events
-        private event EventHandler CapacityReached;
+        public event EventHandler CapacityReached;
         protected virtual void OnCapacityReached(EventArgs e)
         {
             EventHandler handler = CapacityReached;
@@ -78,19 +78,19 @@ namespace BucketOOP.Classes
         /// <summary>
         /// Will return how much till the capacity of container is reached.
         /// </summary>
-        private event EventHandler<CapacityDeviationEventArgs> NearCapacityAmount;
-        protected virtual void OnNearCapacityAmount(CapacityDeviationEventArgs e)
+        public event EventHandler<CapacityDeviationEventArgs> NearCapacity;
+        protected virtual void OnNearCapacity(CapacityDeviationEventArgs e)
         {
-            EventHandler<CapacityDeviationEventArgs> handler = NearCapacityAmount;
+            EventHandler<CapacityDeviationEventArgs> handler = NearCapacity;
             handler?.Invoke(this, e);
         }
         /// <summary>
         /// Will return how much over capacity the container was filled.
         /// </summary>
-        private event EventHandler<CapacityDeviationEventArgs> OverCapacityAmount;
-        protected virtual void OnOverCapacityAmount(CapacityDeviationEventArgs e)
+        public event EventHandler<CapacityDeviationEventArgs> OverCapacity;
+        protected virtual void OnOverCapacity(CapacityDeviationEventArgs e)
         {
-            EventHandler<CapacityDeviationEventArgs> handler = OverCapacityAmount;
+            EventHandler<CapacityDeviationEventArgs> handler = OverCapacity;
             handler?.Invoke(this, e);
         }
         #endregion
