@@ -20,30 +20,31 @@ namespace BucketOOP.Test
         {
         }
         #endregion
-        //Temp
-        public static IEnumerable<object[]> BucketFilling
-        {
-            get
-            {
-                return new List<object[]>
-                {
-                    new object[]{1, 1},
-                    new object[]{0, 0},
-                    new object[]{12, 12},
-                    new object[]{14, 12},
-                };
-            }
-        }
 
         [DataTestMethod]
-        [DynamicData(nameof(BucketFilling), DynamicDataSourceType.Property)]
+        [DynamicData(nameof(TestData.BucketFillData), typeof(TestData), DynamicDataSourceType.Property)]
         [TestMethod]
-        public void DefaultFill(int addedAmount, int expectedContent)
+        public void DefaultFill_ReturnsCorrectContent(int addedAmount, int expectedContent)
         {
             //Arrange in TestInitialize
 
             //Act
             bucket.Fill(addedAmount);
+
+            //Assert
+            Assert.AreEqual(expectedContent, bucket.Content);
+        }
+        [DataTestMethod]
+        [DynamicData(nameof(TestData.BucketEmptyData), typeof(TestData), DynamicDataSourceType.Property)]
+        [TestMethod]
+        public void Empty_ReturnsCorrectContent(int removedAmount, int expectedContent)
+        {
+            //Arrange
+            int maxCap = bucket.Capacity;
+            bucket.Fill(maxCap);
+
+            //Act
+            bucket.Empty(removedAmount);
 
             //Assert
             Assert.AreEqual(expectedContent, bucket.Content);

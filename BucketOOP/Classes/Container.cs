@@ -27,32 +27,31 @@ namespace BucketOOP.Classes
             Content = content;
         }
         #endregion
-
-        #region methods
-        public void Fill(int amount)
-        {
-            if (Content + amount > Capacity)
+        /*TODO IMplement
+        Code check fullness before fill.
+         if (Content + amount > Capacity)
             {
-                OnNearCapacity(EventArgs.Empty);
-
                 ContainerAmountEventArgs args = new ContainerAmountEventArgs();
                 args.Amount = Capacity - Content;
                 OnNearCapacityAmount(args);
             }
+         */
 
+        #region methods
+        public void Fill(int amount)
+        {
+            int PriorContent = Content;
             Content += amount;
 
-            if (Content == Capacity)
+            if (PriorContent < Capacity && Content == Capacity)
                 OnCapacityReached(EventArgs.Empty);
             else if (Content > Capacity)
             {
-                OnOverCapacity(EventArgs.Empty);
-
-                ContainerAmountEventArgs args = new ContainerAmountEventArgs();
+                CapacityDeviationEventArgs args = new CapacityDeviationEventArgs();
                 args.Amount = Content - Capacity;
                 OnOverCapacityAmount(args);
 
-                //Set content back to capacity. TEMP SOLUTION.
+                //Set Content to Capacity, as all excess would be "spiled".
                 Content = Capacity;
             }
         }
@@ -76,34 +75,22 @@ namespace BucketOOP.Classes
             EventHandler handler = CapacityReached;
             handler?.Invoke(this, e);
         }
-        private event EventHandler NearCapacity;
-        protected virtual void OnNearCapacity(EventArgs e)
-        {
-            EventHandler handler = NearCapacity;
-            handler?.Invoke(this, e);
-        }
         /// <summary>
         /// Will return how much till the capacity of container is reached.
         /// </summary>
-        private event EventHandler<ContainerAmountEventArgs> NearCapacityAmount;
-        protected virtual void OnNearCapacityAmount(ContainerAmountEventArgs e)
+        private event EventHandler<CapacityDeviationEventArgs> NearCapacityAmount;
+        protected virtual void OnNearCapacityAmount(CapacityDeviationEventArgs e)
         {
-            EventHandler<ContainerAmountEventArgs> handler = NearCapacityAmount;
-            handler?.Invoke(this, e);
-        }
-        private event EventHandler OverCapacity;
-        protected virtual void OnOverCapacity(EventArgs e)
-        {
-            EventHandler handler = OverCapacity;
+            EventHandler<CapacityDeviationEventArgs> handler = NearCapacityAmount;
             handler?.Invoke(this, e);
         }
         /// <summary>
         /// Will return how much over capacity the container was filled.
         /// </summary>
-        private event EventHandler<ContainerAmountEventArgs> OverCapacityAmount;
-        protected virtual void OnOverCapacityAmount(ContainerAmountEventArgs e)
+        private event EventHandler<CapacityDeviationEventArgs> OverCapacityAmount;
+        protected virtual void OnOverCapacityAmount(CapacityDeviationEventArgs e)
         {
-            EventHandler<ContainerAmountEventArgs> handler = OverCapacityAmount;
+            EventHandler<CapacityDeviationEventArgs> handler = OverCapacityAmount;
             handler?.Invoke(this, e);
         }
         #endregion

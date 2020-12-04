@@ -4,10 +4,10 @@ using System.Text;
 
 namespace BucketOOP.Utility
 {
-    public class ContainerAmountEventArgs : EventArgs
+    public class CapacityDeviationEventArgs : EventArgs
     {
         /// <summary>
-        /// Over or under capacity.
+        /// How much the content is over or under capacity.
         /// </summary>
         public int Amount { get; set; }
     }
