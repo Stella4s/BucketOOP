@@ -8,18 +8,23 @@ namespace BucketOOP.Classes
     {
         public Regenton(RegentonSizes size)
         {
-            switch (size)
+            Capacity = ConvertSizeToInt(size);
+        }
+        public Regenton(RegentonSizes size, int content)
+        {
+            Capacity = ConvertSizeToInt(size);
+            Fill(content);
+        }
+
+        private static int ConvertSizeToInt(RegentonSizes size)
+        {
+            return size switch
             {
-                case RegentonSizes.Small:
-                    Capacity = 80;
-                    break;
-                case RegentonSizes.Medium:
-                    Capacity = 120;
-                    break;
-                case RegentonSizes.Large:
-                    Capacity = 160;
-                    break;
-            }
+                RegentonSizes.Small => 80,
+                RegentonSizes.Medium => 120,
+                RegentonSizes.Large => 160,
+                _ => 80,
+            };
         }
     }
 

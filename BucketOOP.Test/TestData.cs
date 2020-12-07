@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BucketOOP.Classes;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -75,8 +76,32 @@ namespace BucketOOP.Test
             }
         }
         #endregion
-        #region TestData BucketEventsTest
-
+        #region TestData OilDrumTest & RegenTonTest
+        public static IEnumerable<object[]> OilDrumConstructContentData
+        {
+            get
+            {
+                return new List<object[]>
+                {
+                    new object[]{0, 0},
+                    new object[]{50, 50},
+                    new object[]{160, 159}
+                };
+            }
+        }
+        public static IEnumerable<object[]> RegentonConstructCapacitytData
+        {
+            get
+            {
+                return new List<object[]>
+                {
+                    new object[]{RegentonSizes.Small, 80},
+                    new object[]{RegentonSizes.Medium, 120},
+                    new object[]{RegentonSizes.Large, 160},
+                    new object[]{null, 80}
+                };
+            }
+        }
         #endregion
     }
 }

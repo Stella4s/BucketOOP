@@ -6,9 +6,15 @@ namespace BucketOOP.Classes
 {
     public class OilDrum : Container
     {
+        private readonly int defaultCapacity = 159;
         public OilDrum()
         {
-            Capacity = 159;
+            Capacity = defaultCapacity;
+        }
+        public OilDrum(int content)
+        {
+            Capacity = defaultCapacity;
+            Fill(content);
         }
     }
 }
