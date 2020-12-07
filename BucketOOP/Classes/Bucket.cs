@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BucketOOP.Utility;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -7,6 +8,7 @@ namespace BucketOOP.Classes
     public class Bucket : Container
     {
         public const int MinCapacity = 10;
+        private bool IsNearCapacityRaised;
 
         #region constructors
         /// <summary>
@@ -32,7 +34,12 @@ namespace BucketOOP.Classes
             if (capacity < MinCapacity)
                 capacity = MinCapacity;
             Capacity = capacity;
-            Fill(content);
+
+            //Instead of Content(Fill), check if content isn't over capacity. Then set it.
+            //Might change back later.
+            if (content > Capacity)
+                content = Capacity;
+            Content = content;
         }
         #endregion
 
@@ -43,7 +50,12 @@ namespace BucketOOP.Classes
         public void Fill(Bucket supplyBucket)
         {
             Fill(supplyBucket.Content);
-            supplyBucket.Empty();
+            //Only empty the other bucket if NearCapacity was not raised.
+            if (!IsNearCapacityRaised) { 
+                if (!IsNearCapacityRaised)
+                    supplyBucket.Empty();
+                IsNearCapacityRaised = false;
+            }
         }
         /// <summary>
         /// Fills current bucket with part of the content of other specified bucket.
@@ -57,7 +69,18 @@ namespace BucketOOP.Classes
             if (amount > supplyBucket.Content)
                 amount = supplyBucket.Content;
             Fill(amount);
-            supplyBucket.Empty(amount);
+            //Only empty the other bucket, if NearCapacity was not raised.
+            if (!IsNearCapacityRaised)
+                supplyBucket.Empty(amount);
+            IsNearCapacityRaised = false;
+        }
+
+        protected override void OnNearCapacity(CapacityDeviationEventArgs e)
+        {
+            //Bucket specific code.
+            IsNearCapacityRaised = true;
+            //Raise baseclass event.
+            base.OnNearCapacity(e);
         }
     }
 }

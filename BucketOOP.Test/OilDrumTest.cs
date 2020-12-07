@@ -13,8 +13,9 @@ namespace BucketOOP.Test
         #endregion
 
         #region TestMethods
+        [OilDrumTest]
         [TestMethod]
-        public void OilDrumDefaultConstructor_SetsCorrectCapacity()
+        public void DefaultConstructor_SetsCorrectCapacity()
         {
             //Arrange
             OilDrum testOilDrum = new OilDrum();
@@ -22,10 +23,11 @@ namespace BucketOOP.Test
             //Assert
             Assert.AreEqual(159, testOilDrum.Capacity);
         }
+        [OilDrumTest]
         [DataTestMethod]
         [DynamicData(nameof(TestData.OilDrumConstructContentData), typeof(TestData), DynamicDataSourceType.Property)]
         [TestMethod]
-        public void OilDrumContentConstructor_SetsCorrectContent(int setContent, int expectedContent)
+        public void OverloadConstructor_SetsCorrectContent(int setContent, int expectedContent)
         {
             //Arrange
             OilDrum testOilDrum;

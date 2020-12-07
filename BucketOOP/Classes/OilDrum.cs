@@ -14,7 +14,9 @@ namespace BucketOOP.Classes
         public OilDrum(int content)
         {
             Capacity = defaultCapacity;
-            Fill(content);
+            if (content > Capacity)
+                content = Capacity;
+            Content = content;
         }
     }
 }

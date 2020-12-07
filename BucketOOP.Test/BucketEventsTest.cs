@@ -11,6 +11,7 @@ namespace BucketOOP.Test
     public class BucketEventsTest
     {
         #region Class Properties and Helper Methods
+        private readonly int OverFillNum = 13;
         private bool _eventIsRaised;
         private object _eventSender;
         private CapacityDeviationEventArgs _eventArgs;
@@ -26,6 +27,12 @@ namespace BucketOOP.Test
             _eventSender = sender;
         }
         private void Bucket_OverCapacity(object sender, CapacityDeviationEventArgs e)
+        {
+            _eventIsRaised = true;
+            _eventSender = sender;
+            _eventArgs = e;
+        }
+        private void Bucket_NearCapacity(object sender, CapacityDeviationEventArgs e)
         {
             _eventIsRaised = true;
             _eventSender = sender;
@@ -47,7 +54,8 @@ namespace BucketOOP.Test
 
         #region CapacityReached Tests
         [TestMethod]
-        public void Bucket_Fill_Raises_CapacityReachedEvent()
+        [CapacityReached]
+        public void CapacityReachedEvent_IsRaised_ByFill()
         {
             //Arrange
             Bucket bucket = CreateDefaultBucket();
@@ -61,7 +69,8 @@ namespace BucketOOP.Test
             Assert.AreSame(bucket, _eventSender);
         }
         [TestMethod]
-        public void Bucket_OverFill_DoesNOTRaise_CapacityReachedEvent()
+        [CapacityReached]
+        public void CapacityReachedEvent_NotRaised_ByOverFill()
         {
             //Arrange
             Bucket bucket = new Bucket(12, 12);
@@ -74,7 +83,8 @@ namespace BucketOOP.Test
             Assert.IsFalse(_eventIsRaised);
         }
         [TestMethod]
-        public void Bucket_EmptyThenFill_Raises_CapacityReachedEvent()
+        [CapacityReached]
+        public void CapacityReachedEvent_IsRaised_ByEmptyThenFill()
         {
             //Arrange
             Bucket bucket = new Bucket(12, 12);
@@ -90,34 +100,37 @@ namespace BucketOOP.Test
         #endregion
         #region OverCapacity Tests
         [TestMethod]
-        public void Bucket_OverFill_Raises_OverCapacityEvent()
+        [OverCapacity]
+        public void OverCapacityEvent_IsRaised_ByOverFill()
         {
             //Arrange
             Bucket bucket = CreateDefaultBucket();
             bucket.OverCapacity += Bucket_OverCapacity;
 
             //Act
-            bucket.Fill(13);
+            bucket.Fill(OverFillNum);
 
             //Assert
             Assert.IsTrue(_eventIsRaised);
             Assert.AreSame(bucket, _eventSender);
         }
         [TestMethod]
-        public void Bucket_OverCapacityEvent_ReturnsCorrectExcess()
+        [OverCapacity]
+        public void OverCapacityEvent_ReturnsCorrectExcess()
         {
             //Arrange
             Bucket bucket = CreateDefaultBucket();
             bucket.OverCapacity += Bucket_OverCapacity;
 
             //Act
-            bucket.Fill(13);
+            bucket.Fill(OverFillNum);
 
             //Assert
             Assert.AreEqual(1, _eventArgs.Amount);
         }
         [TestMethod]
-        public void Bucket_RepeatFill_RaisesMultiple_OverCapacityEvents()
+        [OverCapacity]
+        public void OverCapacityEvent_IsRaisedTwice_ByRepeatOverFill()
         {
             //Arrange
             List<string> receivedEvents = new List<string>();
@@ -128,11 +141,60 @@ namespace BucketOOP.Test
             };
 
             //Act
-            bucket.Fill(13);
+            bucket.Fill(OverFillNum);
             bucket.Fill(6);
 
             //Assert
             Assert.AreEqual(2, receivedEvents.Count);
+        }
+        #endregion
+
+        #region NearCapacityTests
+        [TestMethod]
+        [NearCapacity]
+        public void NearCapacityEvent_IsRaised_ByOverFill()
+        {
+            //Arrange
+            Bucket bucket = CreateDefaultBucket();
+            bucket.UseNearCapacity = true;
+            bucket.NearCapacity += Bucket_NearCapacity;
+
+            //Act
+            bucket.Fill(OverFillNum);
+
+            //Assert
+            Assert.IsTrue(_eventIsRaised);
+            Assert.AreSame(bucket, _eventSender);
+        }
+        [TestMethod]
+        [NearCapacity]
+        public void NearCapacityEvent_ReturnsCorrectDeviation()
+        {
+            //Arrange
+            Bucket bucket = CreateDefaultBucket();
+            bucket.UseNearCapacity = true;
+            bucket.NearCapacity += Bucket_NearCapacity;
+
+            //Act
+            bucket.Fill(OverFillNum);
+
+            //Assert
+            Assert.AreEqual(12, _eventArgs.Amount);
+        }
+        [TestMethod]
+        [NearCapacity]
+        public void NearCapacityEvent_NotRaised_ByFill()
+        {
+            //Arrange
+            Bucket bucket = CreateDefaultBucket();
+            bucket.UseNearCapacity = true;
+            bucket.NearCapacity += Bucket_NearCapacity;
+
+            //Act
+            bucket.Fill(12);
+
+            //Assert
+            Assert.IsFalse(_eventIsRaised);
         }
         #endregion
 

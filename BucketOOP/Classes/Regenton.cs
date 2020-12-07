@@ -13,7 +13,9 @@ namespace BucketOOP.Classes
         public Regenton(RegentonSizes size, int content)
         {
             Capacity = ConvertSizeToInt(size);
-            Fill(content);
+            if (content > Capacity)
+                content = Capacity;
+            Content = content;
         }
 
         private static int ConvertSizeToInt(RegentonSizes size)

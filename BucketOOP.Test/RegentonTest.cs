@@ -10,10 +10,11 @@ namespace BucketOOP.Test
     public class RegentonTest
     {
         #region TestMethods
+        [RegentonTest]
         [DataTestMethod]
         [DynamicData(nameof(TestData.RegentonConstructCapacitytData), typeof(TestData), DynamicDataSourceType.Property)]
         [TestMethod]
-        public void RegenTonConstructor_SizeSetCorrectCapacity(RegentonSizes size, int expectedCapacity)
+        public void Constructor_SizeSetCorrectCapacity(RegentonSizes size, int expectedCapacity)
         {
             //Arrange
             Regenton testRegenTon;
