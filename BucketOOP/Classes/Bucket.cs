@@ -14,21 +14,15 @@ namespace BucketOOP.Classes
         /// <summary>
         /// Standard constructor sets capacity at 12;
         /// </summary>
-        public Bucket()
-        {
-            Capacity = 12;
-        }
+        public Bucket(): this(12, 0){}
+
+        public Bucket(int capacity) : this(capacity, 0){}
+
         /// <summary>
-        /// Constructor sets customized bucket capacity.
-        /// But no lower than MinCapacity.
+        /// Does not allow capacity to be set below MinCapacity.
         /// </summary>
         /// <param name="capacity"></param>
-        public Bucket(int capacity)
-        {
-            if (capacity < MinCapacity)
-                capacity = MinCapacity;
-            Capacity = capacity;
-        }
+        /// <param name="content"></param>
         public Bucket(int capacity, int content)
         {
             if (capacity < MinCapacity)
