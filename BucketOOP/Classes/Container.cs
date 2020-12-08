@@ -18,12 +18,9 @@ namespace BucketOOP.Classes
         #endregion
 
         #region contructors
-        public Container() { }
+        public Container() : this(10, 0){}
 
-        public Container(int capacity)
-        {
-            Capacity = capacity;
-        }
+        public Container(int capacity) : this(capacity, 0){}
 
         public Container(int capacity, int content)
         {

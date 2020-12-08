@@ -6,10 +6,8 @@ namespace BucketOOP.Classes
 {
     public class Regenton : Container
     {
-        public Regenton(RegentonSizes size)
-        {
-            Capacity = ConvertSizeToInt(size);
-        }
+        public Regenton(RegentonSizes size) : this (size, 0){}
+
         public Regenton(RegentonSizes size, int content)
         {
             Capacity = ConvertSizeToInt(size);

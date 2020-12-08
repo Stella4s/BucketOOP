@@ -7,10 +7,12 @@ namespace BucketOOP.Classes
     public class OilDrum : Container
     {
         private readonly int defaultCapacity = 159;
-        public OilDrum()
-        {
-            Capacity = defaultCapacity;
-        }
+        public OilDrum() : this (0){}
+
+        /// <summary>
+        /// Sets default capacity. Does not allow set content to be above default capacity.
+        /// </summary>
+        /// <param name="content"></param>
         public OilDrum(int content)
         {
             Capacity = defaultCapacity;
